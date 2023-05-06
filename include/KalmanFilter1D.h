@@ -16,7 +16,7 @@
 using namespace std;
 using namespace Eigen;
 
-class KalmanFilter {
+class KalmanFilter1D {
 private:
     double dt = 0;
     double u = 0;
@@ -36,7 +36,7 @@ private:
     Vector2d x {0, 0};
 
 public:
-    KalmanFilter(double dt_, double u_, double sigma_a, double sigma_z):dt(dt_), u(u_), std_acc(sigma_a), std_meas(sigma_z) {};
+    KalmanFilter1D(double dt_, double u_, double sigma_a, double sigma_z):dt(dt_), u(u_), std_acc(sigma_a), std_meas(sigma_z) {};
 
     // Time update equations:
     Matrix<double, 2, 1> predict() {

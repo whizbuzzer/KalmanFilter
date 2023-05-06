@@ -4,10 +4,11 @@
 #include <random>
 #include <vector>
 
-#include "KalmanFilter.h"
+#include "KalmanFilter1D.h"
 #include <matplot/matplot.h>
 
 
+// Not a good practice. TODO: add namespaces
 using namespace std;
 using namespace matplot;
 
@@ -19,6 +20,7 @@ int main() {
     }
 
     // An arbitrary non-linear model track:
+    /* f(t) = 0.1 * (t^2 - t)*/
     vector<double> model_track(t);
     for(int i = 0; i < model_track.size(); i++) {
         model_track[i] = 0.1 * ((model_track[i] * model_track[i]) - model_track[i]);
@@ -28,7 +30,7 @@ int main() {
     double std_acc = 0.25;
     double std_meas = 1.2;    
 
-    KalmanFilter kf = KalmanFilter(dt, u, std_acc, std_meas);
+    KalmanFilter kf = KalmanFilter1D(dt, u, std_acc, std_meas);
 
     vector<double> predictions;
     vector<double> measurements;
