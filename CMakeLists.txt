@@ -10,11 +10,17 @@ project(
 
 list(APPEND CMAKE_PREFIX_PATH "/home/whizbuzzer/vcpkg/packages/matplotplusplus_x64-linux/share/matplot++")
 find_package(Matplot++ REQUIRED)
+find_package(OpenCV REQUIRED)
+
+include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 # So that we don't have to mention them in the "#include" line:
 set(INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+
 if (Matplot++_FOUND)
     add_executable(KalmanFilter main.cpp)
-    target_link_libraries(KalmanFilter PUBLIC Matplot++::matplot)
+    target_link_libraries(KalmanFilter PUBLIC Matplot++::matplot ${OpenCV_LIBS})
+    target_include_directories(KalmanFilter PRIVATE INCLUDE_DIRECTORIES)
 endif ()
+

@@ -4,24 +4,22 @@
 #include <random>
 #include <vector>
 
+#include <Eigen/Dense>
 #include "KalmanFilter1D.h"
 #include <matplot/matplot.h>
 
 
-// Not a good practice. TODO: add namespaces
-using namespace std;
-using namespace matplot;
-
 int main() {
+    // Using 'double' rather than 'float' for a higher precision
     double dt = 0.1;
-    vector<double> t = {0};
+    std::vector<double> t = {0};
     for(double i = 0.1; i < 100; i += dt) {
         t.push_back(i);
     }
 
     // An arbitrary non-linear model track:
     /* f(t) = 0.1 * (t^2 - t)*/
-    vector<double> model_track(t);
+    std::vector<double> model_track(t);
     for(int i = 0; i < model_track.size(); i++) {
         model_track[i] = 0.1 * ((model_track[i] * model_track[i]) - model_track[i]);
     }
@@ -30,17 +28,17 @@ int main() {
     double std_acc = 0.25;
     double std_meas = 1.2;    
 
-    KalmanFilter kf = KalmanFilter1D(dt, u, std_acc, std_meas);
+    KalmanFilter1D kf = KalmanFilter1D(dt, u, std_acc, std_meas);
 
-    vector<double> predictions;
-    vector<double> measurements;
+    std::vector<double> predictions;
+    std::vector<double> measurements;
 
-    default_random_engine generator;
-    normal_distribution<double> distribution(0, 50.0);
+    std::default_random_engine generator;
+    std::normal_distribution<double> distribution(0, 50.0);
 
     for(float x:model_track) {
         double randval = distribution(generator);
-        RowVector2d z = (kf.get_H() * x);
+        Eigen::RowVector2d z = (kf.get_H() * x);
         z(0) = z(0) + randval;
         z(1) = z(1) + randval;
 
@@ -50,19 +48,23 @@ int main() {
     }
 
     std::vector<std::string> newcolors = {"#D41243", "#5F2AF0", "#1B8712"};
-    colororder(newcolors);
+    matplot::colororder(newcolors);
 
-    plot(t, measurements)->line_width(2);
-    hold(on);
-    grid(on);
-    plot(t, model_track)->line_width(2);
-    plot(t, predictions)->line_width(2);
-    hold(off);
+    matplot::plot(t, measurements)->line_width(2);
+    matplot::hold(matplot::on);
+    matplot::plot(t, model_track)->line_width(2);
+    matplot::plot(t, predictions)->line_width(2);
+    matplot::hold(matplot::off);
 
-    auto l = legend("Measurements", "Model track", "Predictions");
-    l->location(legend::general_alignment::topleft);
+    // auto axes = matplot::axes();
+    // axes->color("#94F008");
+    auto l = matplot::legend({"Measurements", "Model track", "Predictions"});
+    l->location(matplot::legend::general_alignment::topleft);
     l->num_rows(2);
-    title("Discrete Kalman Filter tracking a moving object in 1-D");
-    show();
+    matplot::title("Discrete Kalman Filter tracking a moving object in 1-D");
+    matplot::xlabel("Time (s)");
+    matplot::ylabel("Position (m)");
+    matplot::grid(matplot::on);
+    matplot::show();
     return 0;
 }
