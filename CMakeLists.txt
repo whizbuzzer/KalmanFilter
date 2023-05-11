@@ -14,6 +14,6 @@ include_directories( ${OpenCV_INCLUDE_DIRS})
 if (Matplot++_FOUND)
     add_executable(KalmanFilter main.cpp)
     target_link_libraries(KalmanFilter PUBLIC Matplot++::matplot ${OpenCV_LIBS})
-    target_include_directories(KalmanFilter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/data)
+    target_include_directories(KalmanFilter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 endif ()
 
