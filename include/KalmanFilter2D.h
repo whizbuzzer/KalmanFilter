@@ -8,10 +8,6 @@
 
 #include <Eigen/Dense>
 
-// // Standard deviations of acceleration and measurement:
-// #define SIGMA_A 0.25  // m/s^2
-// #define SIGMA_Z 1.2   // m
-
 
 class KalmanFilter2D {
 private:
@@ -79,38 +75,46 @@ public:
         // Calculate error covariance:
         // P = (A * P * A') + Q
         P = A * P * A.transpose() + Q;
-        return x(Eigen::seq(0, 2));
+        
+        return x.head(2);  // (Eigen::Vector2d)x(Eigen::seq(0, 2));
     }
 
     // Measurement update equations:
-    void update(Eigen::Vector2d& z0) {
+    Eigen::Vector2d update(cv::Point pt) {
         // Calculating Kalman gain (K):
-        auto S = H * P * H.transpose() + R;
-        Eigen::Vector2d K = (P * H.transpose()) * S.inverse();
+        Eigen::Matrix2d S = (H * P * H.transpose()) + R;
+        Eigen::Matrix<double, 4, 2> K = (P * H.transpose()) * S.inverse();
 
-        x += K * (z0 - H * x);
+        Eigen::Vector2d z0 {pt.x, pt.y};
+        x += K * (z0 - (H * x));
         x(0) = round(x(0));
         x(1) = round(x(1));
 
         Eigen::Matrix4d I = Eigen::Matrix4d::Identity();
 
         P = (I - (K * H)) * P;
+        
+        return x.head(2);  // (Eigen::Vector2d)x(Eigen::seq(0, 2));
     }
 
     // Getters:
-    Eigen::Matrix2d get_A() {
+    Eigen::Matrix4d get_A() {
         return A;
     }
 
-    Eigen::Vector2d get_B() {
+    Eigen::Matrix<double, 4, 2> get_B() {
         return B;
     }
 
-    Eigen::RowVector2d get_H() {
+    Eigen::Matrix<double, 2, 4> get_H() {
         return H;
     }
 
-    Eigen::Matrix2d get_Q() {
+    Eigen::Matrix4d get_Q() {
         return Q;
+    }
+
+    Eigen::Matrix2d get_R() {
+        return R;
     }
 };

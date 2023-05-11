@@ -77,14 +77,14 @@ void KF1DImplementation() {
     }
 }
 
-int KF2DImplementation(int debug_mode) {
-    cv::VideoCapture videocap("../data/randomball0.avi");
+void KF2DImplementation(int debug_mode) {
+    cv::VideoCapture videocap("data/randomball0.avi");
 
-    // Check if camera opened successfully
-    if(!videocap.isOpened()){
-        std::cout << "Error opening video stream or file" << std::endl;
-        return -1;
-    }
+    // // Check if camera opened successfully
+    // if(!videocap.isOpened()){
+    //     std::cout << "Error opening video stream or file" << std::endl;
+    //     return -1;
+    // }
 
     double dt = 0.1;
     double u_x = 1, u_y = 1;
@@ -118,14 +118,14 @@ int KF2DImplementation(int debug_mode) {
             // Correction
             auto correction = kf.update(centers[0]);
             auto x_c = correction[0], y_c = correction[1];
-            cv::Point pt3(int(x_c - 16), int(y_c - 16)), pt4(int(x_c + 16), int(y_c + 16));
-            cv::rectangle(frame, pt3, pt4, cv::Scalar(0, 0, 255), 2);
+            cv::Point pt3(int(x_c - 15), int(y_c - 15)), pt4(int(x_c + 15), int(y_c + 15));
+            cv::rectangle(frame, pt1, pt2, cv::Scalar(0, 0, 255), 2);
 
-            cv::Point pt5(int(x_c + 15), int(y_c + 10)), pt6(int(x_p + 25), int(y_p + 20));
-            cv::Point pt7(int(centers[0].x + 35), int(centers[0].y + 30));
+            cv::Point pt5(int(x_p + 15), int(y_p + 10)), pt6(int(x_c + 15), int(y_c + 10));
+            cv::Point pt7(int(centers[0].x + 15), int(centers[0].y + 10));
             cv::putText(frame, "Estimated position", pt5, 0, 0.5, cv::Scalar(0, 0, 255), 2);
             cv::putText(frame, "Predicted position", pt6, 0, 0.5, cv::Scalar(255, 0, 0), 2);
-            cv::putText(frame, "Measured position", pt7, 0, 0.5, cv::Scalar(0, 191, 255), 2);
+            cv::putText(frame, "Estimated position", pt7, 0, 0.5, cv::Scalar(0, 191, 255), 2);
         }
 
         cv::imshow("image", frame);
@@ -138,7 +138,6 @@ int KF2DImplementation(int debug_mode) {
     }
     videocap.release();
     cv::destroyAllWindows();
-    return 0;
 }
 
 int main() {

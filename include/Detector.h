@@ -1,5 +1,6 @@
 /* This is a simple object detector made using classical image processing
- * algorithms through OpenCV package
+ * algorithms through OpenCV package. It will detect single as well as multiple
+ * objects
  */
 
 #include <vector>
@@ -8,15 +9,15 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
-#include <Eigen/Dense>
 
-std::vector<cv::Point2f> detect(cv::Mat frame, int debugMode) {
+
+std::vector<cv::Point2f> detect(cv::Mat frame, int debug_mode) {
     // Converting from BGR to grayscale to filter out color information which we
     // do not need for edge detection
     cv::Mat gray;
     cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
 
-    if (debugMode) {
+    if (debug_mode) {
         cv::imshow("gray", gray);
     }
 
@@ -24,14 +25,14 @@ std::vector<cv::Point2f> detect(cv::Mat frame, int debugMode) {
     // https://docs.opencv.org/3.4/da/d22/tutorial_py_canny.html
     cv::Mat edges;
     cv::Canny(gray, edges, 50, 190, 3);  // threshold1, threshold2, apertureSize
-    if (debugMode) {
+    if (debug_mode) {
         cv::imshow("edges", edges);
     }
 
     // Converting to black-and-white to obtain contours
     cv::Mat threshold;
     cv::threshold(edges, threshold, 254, 255, cv::THRESH_BINARY);
-    if (debugMode) {
+    if (debug_mode) {
         cv::imshow("threshold", threshold);
     }
 
