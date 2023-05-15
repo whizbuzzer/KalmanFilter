@@ -1,4 +1,4 @@
-# Discrete Kalman Filter for tracking an object tracking
+# Discrete Kalman Filter for 1D and 2D object tracking
 
 Built on Ubuntu 20.04
 
