@@ -1,4 +1,6 @@
-# Discrete Kalman Filter for tracking an object tracking
+# Discrete Kalman Filter for 1D and 2D object tracking
+
+Built on Ubuntu 20.04
 
 This project aims to implement the Kalman Filter (Linear Quadratic Estimation) for Object-tracking in 1D and 2D in C++ using [this reference](https://machinelearningspace.com/object-tracking-python/)
 
