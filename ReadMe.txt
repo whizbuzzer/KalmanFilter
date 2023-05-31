@@ -43,3 +43,8 @@ If it is not, then:
 
 
 * All data files should be put in the /data folder and provide the relative path to them in functions as **"../data/filename.type"**
+
+
+* ".h" files are commonly associated with C files. 
+- Either declare classes and functions in ".h" and define them in corresponding ".cpp" files OR define as well as declare them in ".hpp" files which are associated with C++
+

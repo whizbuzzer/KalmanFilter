@@ -4,10 +4,10 @@
 #include <random>
 #include <vector>
 
-#include "Detector.h"
+#include "Detector.hpp"
 #include <Eigen/Dense>
-#include "KalmanFilter1D.h"
-#include "KalmanFilter2D.h"
+#include "KalmanFilter1D.hpp"
+#include "KalmanFilter2D.hpp"
 #include <matplot/matplot.h>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
