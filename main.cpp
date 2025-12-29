@@ -70,6 +70,7 @@ void KF1DImplementation() {
     matplot::ylabel("Position (m)");
     matplot::grid(matplot::on);
     matplot::show();
+    matplot::save("Kalman1D.jpg");
 
     char c = (char)cv::waitKey(25);
     if (c == 27) {
